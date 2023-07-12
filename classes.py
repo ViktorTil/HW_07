@@ -1,11 +1,12 @@
 from collections import UserDict
 from datetime import datetime
+import pickle
 import re
-
 
 class AddressBook(UserDict):
 
-
+    filename = "data.bin"
+    
     def add_record(self, record):
         self.data[record.name.value] = record
 
@@ -22,13 +23,25 @@ class AddressBook(UserDict):
                 page = {}
         if page:
             yield page
+    
+    def load_book(self):
+
+        try:
+            with open(self.filename, "rb") as fh:
+                self.data = pickle.load(fh)
+        except FileNotFoundError:
+            pass
+    
+    def save_book(self):
+        with open(self.filename, "wb") as fh:
+            pickle.dump(self.data, fh)   
+
         
 class Field:
     def __init__(self, value):
         self.value = value
         
 
-    
 
 class Birthday(Field):
     def __init__(self, value : str = None):
@@ -122,3 +135,4 @@ class Record:
             return f"У контакта \033[34m{self.name.value}\033[0m сегодня День рождения! Поздравьте его"
         else:
             return f"У контакта \033[34m{self.name.value}\033[0m нет в книге даты рождения "
+
