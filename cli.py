@@ -7,7 +7,7 @@ answers = ["How can I help you?", "Good bye!", add_phone, get_birthdate, change,
 
 def main():
     working_bot= True
-    phone_book = AddressBook(
+    phone_book = AddressBook()
     phone_book.load_book()
     
         
