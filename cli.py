@@ -1,26 +1,20 @@
 from classes import AddressBook
 from func import add_phone, get_birthdate, change, delete, delete_phones, find_contact, phone, show_all, when_birthday
-import pickle
 
 commands = ["hello", ["good bye", "close", "exit", "bye", "esc", "q"], "add", "birthdate", "change", "del", "del phones", "find", "phone", "show all", "birthday"]
 answers = ["How can I help you?", "Good bye!", add_phone, get_birthdate, change, delete, delete_phones, find_contact, phone, show_all, when_birthday]
-file_name = "data.bin"
 
 
 def main():
     working_bot= True
-    try:    
-        with open(file_name, "rb") as fh:
-            phone_book = pickle.load(fh)
-
-    except FileNotFoundError:
-        phone_book = AddressBook()
+    phone_book = AddressBook(
+    phone_book.load_book()
+    
         
     while working_bot:
         command = input("->")
         working_bot = reply(command, phone_book)
-    with open(file_name, "wb") as fh:
-            pickle.dump(phone_book, fh)
+    phone_book.save_book()
             
 
 def reply(command, phone_book):
